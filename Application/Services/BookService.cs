@@ -17,23 +17,23 @@ namespace Application.Services
         }
         public async Task<BookDto> CreateBookAsync(BookDto model)
         {
-            var dbookEntity = model.Adapt<Book>();
+            var bookEntity = model.Adapt<Book>();
 
-            _repository.Book.CreateBook(dbookEntity);
+            _repository.Book.CreateBook(bookEntity);
             await _repository.SaveAsync();
 
-            return dbookEntity.Adapt<BookDto>();
+            return bookEntity.Adapt<BookDto>();
         }
 
         public async Task DeleteBookAsync(Guid bookId)
         {
-            var dbook = await EntityHelper
+            var book = await EntityHelper
                             .GetEntityAndCheckIfItExists
                             (
                                 bookId,
                                 _repository.Book.GetBookAsync
                             );
-            _repository.Book.DeleteBook(dbook);
+            _repository.Book.DeleteBook(book);
             await _repository.SaveAsync();
         }
 
@@ -48,26 +48,26 @@ namespace Application.Services
 
         public async Task<BookDto> GetBookByIdAsync(Guid id)
         {
-            var dbook = await EntityHelper
+            var book = await EntityHelper
                             .GetEntityAndCheckIfItExists
                             (
                                 id,
                                 _repository.Book.GetBookAsync
                             );
 
-            return dbook.Adapt<BookDto>();
+            return book.Adapt<BookDto>();
         }
 
         public async Task UpdateBookAsync(Guid bookId, BookDto model)
         {
-            var dbook = await EntityHelper
+            var book = await EntityHelper
                             .GetEntityAndCheckIfItExists
                             (
                                 bookId,
                                 _repository.Book.GetBookAsync
                             );
 
-            model.Adapt(dbook);
+            model.Adapt(book);
             await _repository.SaveAsync();
         }
     }
