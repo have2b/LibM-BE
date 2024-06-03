@@ -12,7 +12,7 @@ namespace Infrastructure.Context
             builder.ApplyConfiguration(new UserConfig());
 
             builder.Entity<BookCategory>().HasKey(bc => new { bc.BookId, bc.CategoryId });
-            builder.Entity<RequestDetail>().HasKey(rd => new { rd.BookBorrowingRequestId, rd.BookId });
+            builder.Entity<RequestDetail>().HasKey(rd => new { rd.RequestId, rd.BookId });
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }

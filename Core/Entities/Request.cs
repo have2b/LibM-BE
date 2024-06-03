@@ -10,7 +10,7 @@ namespace Core.Entities
         [Key]
         public Guid RequestId { get; set; }
         public DateTime RequestDate { get; set; } = DateTime.Now;
-        public BookBorrowingRequestStatus Status { get; set; } = BookBorrowingRequestStatus.Waiting;
+        public RequestStatus Status { get; set; } = RequestStatus.Waiting;
 
         // Foreign Keys
         [ForeignKey("UserId")]
@@ -24,7 +24,7 @@ namespace Core.Entities
         public ICollection<RequestDetail>? RequestDetails { get; set; }
     }
 
-    public enum BookBorrowingRequestStatus
+    public enum RequestStatus
     {
         Approved = 0,
         Rejected = 1,

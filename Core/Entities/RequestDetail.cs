@@ -2,14 +2,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
-    [Table("BookBorrowingRequestDetails")]
+    [Table("RequestDetails")]
     public class RequestDetail
     {
         // Properties
 
         // Foreign Keys
-        [ForeignKey("BookBorrowingRequestId")]
-        public Guid BookBorrowingRequestId { get; set; }
+        [ForeignKey("RequestId")]
+        public Guid RequestId { get; set; }
         [ForeignKey("BookId")]
         public Guid BookId { get; set; }
 
