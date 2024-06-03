@@ -1,5 +1,6 @@
 using Application.Contracts;
 using Application.DTOs;
+using Application.Utils;
 using Core.Contracts;
 using Core.Entities;
 using Mapster;
@@ -26,7 +27,12 @@ namespace Application.Services
 
         public async Task DeleteCategoryAsync(Guid categoryId)
         {
-            var category = await GetCategoryAndCheckIfItExists(categoryId);
+            var category = await EntityHelper
+                            .GetEntityAndCheckIfItExists
+                            (
+                                categoryId,
+                                _repository.Category.GetCategoryAsync
+                            );
             _repository.Category.DeleteCategory(category);
             await _repository.SaveAsync();
         }
@@ -42,24 +48,27 @@ namespace Application.Services
 
         public async Task<CategoryDto> GetCategoryByIdAsync(Guid id)
         {
-            var category = await GetCategoryAndCheckIfItExists(id);
+            var category = await EntityHelper
+                            .GetEntityAndCheckIfItExists
+                            (
+                                id,
+                                _repository.Category.GetCategoryAsync
+                            );
 
             return category.Adapt<CategoryDto>();
         }
 
         public async Task UpdateCategoryAsync(Guid categoryId, CategoryDto model)
         {
-            var category = await GetCategoryAndCheckIfItExists(categoryId);
+            var category = await EntityHelper
+                            .GetEntityAndCheckIfItExists
+                            (
+                                categoryId,
+                                _repository.Category.GetCategoryAsync
+                            );
 
             model.Adapt(category);
             await _repository.SaveAsync();
-        }
-
-        private async Task<Category> GetCategoryAndCheckIfItExists(Guid categoryId)
-        {
-            var category = await _repository.Category.GetCategoryAsync(categoryId) ?? throw new Exception("Category not found");
-
-            return category;
         }
     }
 }
