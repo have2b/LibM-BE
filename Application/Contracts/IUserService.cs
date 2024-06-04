@@ -6,7 +6,6 @@ namespace Application.Contracts
     {
         Task<IEnumerable<UserDto>> GetUsersAsync();
         Task<UserDto> GetUserByIdAsync(Guid id);
-        Task<UserDto> RegisterAsync(UserDto model);
         Task UpdateUserAsync(Guid userId, UserDto model);
         Task DeleteUserAsync(Guid userId);
     }

@@ -45,20 +45,6 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post(UserDto model)
-        {
-            try
-            {
-                await _service.UserService.RegisterAsync(model);
-                return Created();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Put(Guid id, UserDto model)
         {

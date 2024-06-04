@@ -15,15 +15,6 @@ namespace Application.Services
         {
             _repository = repository;
         }
-        public async Task<UserDto> RegisterAsync(UserDto model)
-        {
-            var userEntity = model.Adapt<User>();
-
-            _repository.User.Register(userEntity);
-            await _repository.SaveAsync();
-
-            return userEntity.Adapt<UserDto>();
-        }
 
         public async Task DeleteUserAsync(Guid userId)
         {
