@@ -9,5 +9,6 @@ namespace Application.Contracts
         IRequestDetailService RequestDetailService { get; }
         IBookCategoryService BookCategoryService { get; }
         IJwtAuthService JwtAuthService { get; }
+        IAuthService AuthService { get; }
     }
 }

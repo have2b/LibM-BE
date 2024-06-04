@@ -1,7 +1,6 @@
 using Core.Contracts;
 using Core.Entities;
 using Infrastructure.Context;
-using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
@@ -14,6 +13,9 @@ namespace Infrastructure.Repositories
 
         public async Task<User> GetUserAsync(Guid userId)
         => await GetByCondition(u => u.UserId.Equals(userId)).FirstOrDefaultAsync();
+
+        public async Task<User> GetUserByUsernameAsync(string username)
+        => await GetByCondition(u => u.Username.Equals(username)).FirstOrDefaultAsync();
 
         public void Register(User user) => Create(user);
     }

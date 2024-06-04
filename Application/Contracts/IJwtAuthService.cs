@@ -1,7 +1,9 @@
+using Core.Entities;
+
 namespace Application.Contracts
 {
     public interface IJwtAuthService
     {
-        string GenerateToken();
+        string GenerateToken(User user);
     }
 }

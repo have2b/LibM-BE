@@ -13,6 +13,7 @@ namespace Application.Services
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IBookCategoryService> _bookCategoryService;
         private readonly Lazy<IJwtAuthService> _jwtAuthService;
+        private readonly Lazy<IAuthService> _authService;
 
 
         public ServiceManager(IRepositoryManager repository, IConfiguration configuration)
@@ -24,6 +25,7 @@ namespace Application.Services
             _userService = new Lazy<IUserService>(() => new UserService(repository));
             _bookCategoryService = new Lazy<IBookCategoryService>(() => new BookCategoryService(repository));
             _jwtAuthService = new Lazy<IJwtAuthService>(() => new JwtAuthService(configuration));
+            _authService = new Lazy<IAuthService>(() => new AuthService(repository, _jwtAuthService.Value));
         }
 
         public ICategoryService CategoryService => _categoryService.Value;
@@ -39,5 +41,7 @@ namespace Application.Services
         public IBookCategoryService BookCategoryService => _bookCategoryService.Value;
 
         public IJwtAuthService JwtAuthService => _jwtAuthService.Value;
+
+        public IAuthService AuthService => _authService.Value;
     }
 }

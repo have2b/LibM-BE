@@ -8,5 +8,6 @@ namespace Core.Contracts
         Task<User> GetUserAsync(Guid userId);
         void Register(User user);
         void DeleteUser(User user);
+        Task<User> GetUserByUsernameAsync(string username);
     }
 }

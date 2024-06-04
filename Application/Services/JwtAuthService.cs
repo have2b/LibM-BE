@@ -11,16 +11,15 @@ namespace Application.Services
     public class JwtAuthService : IJwtAuthService
     {
         private readonly IConfiguration _configuration;
-        private User? _user;
 
         public JwtAuthService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        public string GenerateToken()
+        public string GenerateToken(User user)
         {
             var signingCredentials = GetSigningCredentials();
-            var claims = GetClaims();
+            var claims = GetClaims(user);
             var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
@@ -33,10 +32,10 @@ namespace Application.Services
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
-        private List<Claim> GetClaims()
+        private List<Claim> GetClaims(User user)
         {
-            var claims = new List<Claim> { new(ClaimTypes.Name, _user.Username) };
-            var role = nameof(_user.Role);
+            var claims = new List<Claim> { new(ClaimTypes.Name, user.Username) };
+            var role = nameof(user.Role);
             claims.Add(new Claim(ClaimTypes.Role, role));
 
             return claims;
