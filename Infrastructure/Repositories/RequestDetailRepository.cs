@@ -23,10 +23,5 @@ namespace Infrastructure.Repositories
                         .Select(rd => rd.Book)
                         .ToListAsync();
         }
-
-        public Task<List<Request>> GetRequestsByBook(Guid bookId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

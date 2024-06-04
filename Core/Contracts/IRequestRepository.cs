@@ -8,5 +8,6 @@ namespace Core.Contracts
         Task<Request> GetRequestAsync(Guid requestId);
         void CreateRequest(Request request);
         void DeleteRequest(Request request);
+        Task<List<Request>> GetRequestsByRequestor(Guid requestorId);
     }
 }

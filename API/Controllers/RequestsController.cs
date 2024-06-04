@@ -54,8 +54,21 @@ namespace API.Controllers
         {
             try
             {
+                // Limit 5 books per request
+                if (model.BookIds.Count > 5)
+                {
+                    return BadRequest("Maximum 5 books per request");
+                }
+                // Limit 3 requests per month
+                var requestsByRequestor = await _service.RequestService.GetRequestsForForRequestorAsync(model.RequestorId);
+                var requestCount = requestsByRequestor.Count(r => r.RequestDate.Month == DateTime.Now.Month);
+                if (requestCount >= 3)
+                {
+                    return BadRequest("Maximum 3 requests per month");
+                }
+
                 var requestCreated = await _service.RequestService.CreateRequestAsync(model);
-                await _service.RequestDetailService.Add(requestCreated.RequestId, model.BookIds!);
+                await _service.RequestDetailService.Add(requestCreated.RequestId, model.BookIds);
 
                 return Created();
             }

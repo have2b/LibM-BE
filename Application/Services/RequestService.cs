@@ -70,5 +70,12 @@ namespace Application.Services
             model.Adapt(request);
             await _repository.SaveAsync();
         }
+
+        public async Task<IEnumerable<RequestDto>> GetRequestsForForRequestorAsync(Guid requestorId)
+        {
+            var requests = await _repository.Request.GetRequestsByRequestor(requestorId);
+
+            return requests.Adapt<IEnumerable<RequestDto>>();
+        }
     }
 }

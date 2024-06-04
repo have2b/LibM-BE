@@ -9,5 +9,6 @@ namespace Application.Contracts
         Task<RequestDto> CreateRequestAsync(RequestDto model);
         Task UpdateRequestAsync(Guid requestId, RequestDto model);
         Task DeleteRequestAsync(Guid requestId);
+        Task<IEnumerable<RequestDto>> GetRequestsForForRequestorAsync(Guid requestorId);
     }
 }
