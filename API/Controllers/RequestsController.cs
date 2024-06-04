@@ -54,7 +54,9 @@ namespace API.Controllers
         {
             try
             {
-                await _service.RequestService.CreateRequestAsync(model);
+                var requestCreated = await _service.RequestService.CreateRequestAsync(model);
+                await _service.RequestDetailService.Add(requestCreated.RequestId, model.BookIds!);
+
                 return Created();
             }
             catch (Exception ex)
