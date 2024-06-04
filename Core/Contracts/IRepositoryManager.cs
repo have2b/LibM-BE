@@ -7,6 +7,7 @@ namespace Core.Contracts
         IBookRepository Book { get; }
         IRequestRepository Request { get; }
         IRequestDetailRepository RequestDetail { get; }
+        IBookCategoryRepository BookCategory { get; }
         Task SaveAsync();
     }
 }
