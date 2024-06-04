@@ -27,6 +27,25 @@ namespace API.Controllers
             }
         }
 
+        // Get books by category id
+        [HttpGet("{id:guid}/books")]
+        public async Task<IActionResult> GetBooks(Guid id)
+        {
+            try
+            {
+                var books = await _service.BookCategoryService.GetBooksByCategory(id);
+                return Ok(books);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -82,6 +101,8 @@ namespace API.Controllers
         {
             try
             {
+                // Delete relationships in db before delete category
+                await _service.BookCategoryService.RemoveByCategory(id);
                 await _service.CategoryService.DeleteCategoryAsync(id);
                 return NoContent();
             }

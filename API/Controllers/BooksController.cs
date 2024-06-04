@@ -1,6 +1,8 @@
 using Application.Contracts;
 using Application.DTOs;
+using Core.Entities;
 using Core.Exceptions;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -27,6 +29,7 @@ namespace API.Controllers
             }
         }
 
+        // Get specific book by its id
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -45,12 +48,33 @@ namespace API.Controllers
             }
         }
 
+        // Get categories by book id
+        [HttpGet("{id:guid}/categories")]
+        public async Task<IActionResult> GetCategories(Guid id)
+        {
+            try
+            {
+                var categories = await _service.BookCategoryService.GetCategoriesByBook(id);
+                return Ok(categories);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(BookDto model)
         {
             try
             {
-                await _service.BookService.CreateBookAsync(model);
+                var bookCreated = await _service.BookService.CreateBookAsync(model);
+                await _service.BookCategoryService.Add(bookCreated.BookId, model.CategoryIds!);
+
                 return Created();
             }
             catch (Exception ex)
@@ -82,6 +106,8 @@ namespace API.Controllers
         {
             try
             {
+                // Delete relationships in db before delete book
+                await _service.BookCategoryService.RemoveByBook(id);
                 await _service.BookService.DeleteBookAsync(id);
                 return NoContent();
             }

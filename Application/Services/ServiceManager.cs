@@ -9,6 +9,7 @@ namespace Application.Services
         private readonly Lazy<IBookService> _bookService;
         private readonly Lazy<IRequestService> _requestService;
         private readonly Lazy<IUserService> _userService;
+        private readonly Lazy<IBookCategoryService> _bookCategoryService;
 
 
         public ServiceManager(IRepositoryManager repository)
@@ -17,6 +18,7 @@ namespace Application.Services
             _bookService = new Lazy<IBookService>(() => new BookService(repository));
             _requestService = new Lazy<IRequestService>(() => new RequestService(repository));
             _userService = new Lazy<IUserService>(() => new UserService(repository));
+            _bookCategoryService = new Lazy<IBookCategoryService>(() => new BookCategoryService(repository));
         }
 
         public ICategoryService CategoryService => _categoryService.Value;
@@ -28,5 +30,7 @@ namespace Application.Services
         public IRequestService RequestService => _requestService.Value;
 
         public IRequestDetailService RequestDetailService => throw new NotImplementedException();
+
+        public IBookCategoryService BookCategoryService => _bookCategoryService.Value;
     }
 }
