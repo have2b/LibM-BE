@@ -11,8 +11,23 @@ namespace Infrastructure.Context
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new UserConfig());
 
-            builder.Entity<BookCategory>().HasKey(bc => new { bc.BookId, bc.CategoryId });
-            builder.Entity<RequestDetail>().HasKey(rd => new { rd.RequestId, rd.BookId });
+            builder.Entity<Request>()
+                .HasOne(r => r.Approver)
+                .WithMany()
+                .HasForeignKey(r => r.ApproverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Request>()
+                .HasOne(r => r.Requestor)
+                .WithMany()
+                .HasForeignKey(r => r.RequestorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<BookCategory>()
+                .HasKey(bc => new { bc.BookId, bc.CategoryId });
+
+            builder.Entity<RequestDetail>()
+                .HasKey(rd => new { rd.RequestId, rd.BookId });
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
