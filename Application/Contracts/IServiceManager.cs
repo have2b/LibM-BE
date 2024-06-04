@@ -7,5 +7,6 @@ namespace Application.Contracts
         IUserService UserService { get; }
         IRequestService RequestService { get; }
         IRequestDetailService RequestDetailService { get; }
+        IBookCategoryService BookCategoryService { get; }
     }
 }
