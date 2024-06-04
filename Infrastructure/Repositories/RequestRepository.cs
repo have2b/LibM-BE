@@ -18,7 +18,7 @@ namespace Infrastructure.Repositories
         => await GetByCondition(rq => rq.RequestId.Equals(requestId)).FirstOrDefaultAsync();
 
         public async Task<List<Request>> GetRequestsByRequestor(Guid requestorId)
-        => await GetAll().Where(r => r.RequestId == requestorId).ToListAsync();
+        => await GetAll().Where(r => r.RequestorId == requestorId).ToListAsync();
 
     }
 }

@@ -1,8 +1,7 @@
 using Application.Contracts;
 using Application.DTOs;
-using Core.Entities;
 using Core.Exceptions;
-using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -16,6 +15,7 @@ namespace API.Controllers
         public BooksController(IServiceManager service) => _service = service;
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             try

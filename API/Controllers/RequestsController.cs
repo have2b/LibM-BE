@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Application.Contracts;
 using Application.DTOs;
 using Core.Exceptions;
@@ -62,7 +58,7 @@ namespace API.Controllers
                 // Limit 3 requests per month
                 var requestsByRequestor = await _service.RequestService.GetRequestsForForRequestorAsync(model.RequestorId);
                 var requestCount = requestsByRequestor.Count(r => r.RequestDate.Month == DateTime.Now.Month);
-                if (requestCount >= 3)
+                if (requestCount > 3)
                 {
                     return BadRequest("Maximum 3 requests per month");
                 }

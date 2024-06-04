@@ -8,5 +8,6 @@ namespace Application.Contracts
         IRequestService RequestService { get; }
         IRequestDetailService RequestDetailService { get; }
         IBookCategoryService BookCategoryService { get; }
+        IJwtAuthService JwtAuthService { get; }
     }
 }
