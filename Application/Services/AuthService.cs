@@ -21,6 +21,9 @@ namespace Application.Services
             // Check exist in database
             var user = await _repository.User.GetUserByUsernameAsync(request.Username) ?? throw new Exception("User not found");
 
+            // Check correct password
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password)) throw new Exception("Incorrect password");
+
             // If exist, so gen token
             return _jwtAuthService.GenerateToken(user);
         }

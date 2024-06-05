@@ -1,6 +1,9 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Text.Json;
 using Application.Contracts;
 using Application.DTOs;
 using Core.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -18,8 +21,8 @@ namespace API.Controllers
         {
             try
             {
-                var books = await _service.UserService.GetUsersAsync();
-                return Ok(books);
+                var users = await _service.UserService.GetUsersAsync();
+                return Ok(users);
             }
             catch (Exception ex)
             {
@@ -32,12 +35,38 @@ namespace API.Controllers
         {
             try
             {
-                var book = await _service.UserService.GetUserByIdAsync(id);
-                return Ok(book);
+                var user = await _service.UserService.GetUserByIdAsync(id);
+                return Ok(user);
             }
             catch (NotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetProfile()
+        {
+            try
+            {
+                // Get the JWT token from the Authorization header
+                string token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+                if (string.IsNullOrEmpty(token))
+                    return Unauthorized();
+
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+                var userId = jsonToken?.Claims?.FirstOrDefault(c => c.Type == "Id")?.Value;
+
+                var user = _service.UserService.GetUserByIdAsync(Guid.Parse(userId!));
+
+                return user != null ? Ok(new { User = user.Result }) : BadRequest();
             }
             catch (Exception ex)
             {

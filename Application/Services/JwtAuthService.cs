@@ -34,9 +34,10 @@ namespace Application.Services
 
         private List<Claim> GetClaims(User user)
         {
-            var claims = new List<Claim> { new(ClaimTypes.Name, user.Username) };
-            var role = nameof(user.Role);
+            var claims = new List<Claim> { new(ClaimTypes.NameIdentifier, user.Username) };
+            var role = user.Role.ToString();
             claims.Add(new Claim(ClaimTypes.Role, role));
+            claims.Add(new Claim("Id", user.UserId.ToString()));
 
             return claims;
         }
@@ -49,7 +50,7 @@ namespace Application.Services
                 issuer: jwtSettings["ValidIssuer"],
                 audience: jwtSettings["ValidAudience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["expires"])),
+                expires: DateTime.Now.AddYears(Convert.ToInt32(jwtSettings["expires"])),
                 signingCredentials: signingCredentials
             );
             return tokenOptions;

@@ -12,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
     builder.Services.ConfigureRepositoryManager();
     builder.Services.ConfigureServiceManager();
     builder.Services.ConfigureJWT(builder.Configuration);
+    builder.Services.ConfigureCors();
 }
 
 var app = builder.Build();
@@ -23,6 +24,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
 app.MapControllers();
 app.UseHttpsRedirection();
 
