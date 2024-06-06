@@ -183,12 +183,12 @@ namespace API.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("9143e938-bc36-45cb-bdbe-c75801f53b0c"),
+                            UserId = new Guid("79d3b7be-c7e7-4efc-befd-0c6c09cc9a8b"),
                             Address = "Hanoi",
                             AvatarUrl = "admin.png",
                             Email = "thanhlongvu156@gmail.com",
                             FullName = "tlong",
-                            Password = "Admin123!",
+                            Password = "$2a$10$fUhGSMUTpXFtoBsZ5Lsdue0kHxsIKtTrJAS1DiQot4/LunhbPcrz.",
                             Phone = "0987654321",
                             Role = 0,
                             Username = "admin"

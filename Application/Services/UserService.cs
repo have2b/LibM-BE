@@ -61,13 +61,5 @@ namespace Application.Services
             model.Adapt(user);
             await _repository.SaveAsync();
         }
-
-        public async Task<UserDto> GetUserByTokenAsync(string username)
-        {
-            // Check exist in database by username
-            var user = await _repository.User.GetUserByUsernameAsync(username) ?? throw new Exception("User not found");
-
-            return user.Adapt<UserDto>();
-        }
     }
 }

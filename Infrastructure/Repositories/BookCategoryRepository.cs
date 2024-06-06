@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<List<Book>> GetBooksByCategory(Guid categoryId)
+        public async Task<List<Book?>> GetBooksByCategory(Guid categoryId)
         {
             var bookCategory = GetAll();
             return await bookCategory

@@ -19,6 +19,7 @@ namespace API.Controllers
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var token = await _service.AuthService.LoginAsync(request);
+
             return Ok(new { Token = token });
         }
 

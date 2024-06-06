@@ -80,7 +80,7 @@ namespace API.Extensions
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins("*")
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
