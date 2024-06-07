@@ -1,6 +1,8 @@
 using Application.Contracts;
 using Application.DTOs;
+using Core.Entities;
 using Core.Exceptions;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -50,6 +52,8 @@ namespace API.Controllers
         {
             try
             {
+                model.RequestDate = model.RequestDate.ToUniversalTime();
+                System.Console.WriteLine(model);
                 // Limit 5 books per request
                 if (model.BookIds.Count > 5)
                 {
@@ -57,7 +61,8 @@ namespace API.Controllers
                 }
                 // Limit 3 requests per month
                 var requestsByRequestor = await _service.RequestService.GetRequestsForForRequestorAsync(model.RequestorId);
-                var requestCount = requestsByRequestor.Count(r => r.RequestDate.Month == DateTime.Now.Month);
+                var requestCount = requestsByRequestor.Count(r => r.RequestDate.Month == DateTime.Now.Month && r.RequestDate.Year == DateTime.Now.Year);
+
                 if (requestCount > 3)
                 {
                     return BadRequest("Maximum 3 requests per month");

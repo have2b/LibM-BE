@@ -3,6 +3,7 @@ using Application.DTOs;
 using Application.Utils;
 using Core.Contracts;
 using Core.Entities;
+using Core.Entities.RequestFeatures;
 using Mapster;
 
 namespace Application.Services
@@ -37,13 +38,13 @@ namespace Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task<IEnumerable<BookDto>> GetBooksAsync()
+        public async Task<(IEnumerable<BookDto> books, Metadata metadata)> GetBooksAsync(RequestParameters requestParameters)
         {
-            var books = await _repository.Book.GetAllBooksAsync();
+            var bookWithMetada = await _repository.Book.GetBooksAsync(requestParameters);
 
-            var booksDto = books.Adapt<IEnumerable<BookDto>>();
+            var booksDto = bookWithMetada.Adapt<IEnumerable<BookDto>>();
 
-            return booksDto;
+            return (books: booksDto, metadata: bookWithMetada.MetaData);
         }
 
         public async Task<BookDto> GetBookByIdAsync(Guid id)

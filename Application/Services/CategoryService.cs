@@ -66,7 +66,7 @@ namespace Application.Services
                                 categoryId,
                                 _repository.Category.GetCategoryAsync
                             );
-
+            model.CategoryId = category.CategoryId;
             model.Adapt(category);
             await _repository.SaveAsync();
         }

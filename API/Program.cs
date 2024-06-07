@@ -13,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
     builder.Services.ConfigureServiceManager();
     builder.Services.ConfigureJWT(builder.Configuration);
     builder.Services.ConfigureCors();
+    builder.Services.RegisterMapsterConfiguration();
 }
 
 var app = builder.Build();

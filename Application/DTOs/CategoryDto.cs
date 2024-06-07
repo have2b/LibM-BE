@@ -4,7 +4,7 @@ namespace Application.DTOs
 {
     public record CategoryDto
     {
-        public Guid CategoryId { get; init; }
+        public Guid CategoryId { get; set; }
         [StringLength(255)]
         public required string CategoryName { get; init; }
         [StringLength(500)]

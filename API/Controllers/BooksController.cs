@@ -1,5 +1,7 @@
+using System.Text.Json;
 using Application.Contracts;
 using Application.DTOs;
+using Core.Entities.RequestFeatures;
 using Core.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +17,17 @@ namespace API.Controllers
         public BooksController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] RequestParameters requestParameters)
         {
             try
             {
-                var books = await _service.BookService.GetBooksAsync();
-                return Ok(books);
+                var pagedResult = await _service.BookService.GetBooksAsync(requestParameters);
+
+                return Ok(new
+                {
+                    Books = pagedResult.books,
+                    Metadata = pagedResult.metadata
+                });
             }
             catch (Exception ex)
             {
